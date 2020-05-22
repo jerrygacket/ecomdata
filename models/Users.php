@@ -4,6 +4,9 @@
 namespace app\models;
 
 
+use yii\behaviors\TimestampBehavior;
+use yii\db\ActiveRecord;
+use yii\db\Expression;
 use yii\helpers\FileHelper;
 use yii\web\IdentityInterface;
 
@@ -37,9 +40,22 @@ class Users extends \app\base\models\Users implements IdentityInterface
             ['email','email','message' => 'Емейл не прошел валидацию'],
             ['username','unique','on' => self::SCENARIO_REGISTRATION],
             ['username','exist','on' => self::SCENARIO_AUTHORIZATION],
-            ['yearFile','file','extensions' => ['xlsx'],'maxFiles' => 1],
         ], parent::rules()
         );
+    }
+
+    public function behaviors()
+    {
+        return [
+            [
+                'class' => TimestampBehavior::className(),
+                'attributes' => [
+                    ActiveRecord::EVENT_BEFORE_INSERT => ['created_on', 'updated_on'],
+                    ActiveRecord::EVENT_BEFORE_UPDATE => ['updated_on'],
+                ],
+                'value' => new Expression('NOW()')
+            ]
+        ];
     }
 
     /**

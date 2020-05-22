@@ -19,7 +19,6 @@ class UsersComponent extends BaseComponent
         }
 
         $currentUser = Users::findOne(\Yii::$app->user->id);
-        $currentUser->email = $model->email;
 
         if ($model->newPassword)
 
@@ -45,6 +44,18 @@ class UsersComponent extends BaseComponent
         }
 
         return false;
+    }
+
+    /**
+     * @param $model Users
+     * @return bool
+     */
+    public function updateUser(&$model):bool{
+        $model->passwordHash = $model->newPassword ? $this->hashPassword($model->newPassword) : $model->passwordHash;
+        //$model->authKey = $this->generateAuthKey();
+        //$model->active = 1;
+
+        return $model->save();
     }
 
     private function generateAuthKey(){

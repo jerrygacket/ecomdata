@@ -26,25 +26,23 @@ class RbacComponent extends Component
         $createStat = $authManager->createPermission('createStat');
         $createStat->description='Создание статистики';
 
+        $createUser = $authManager->createPermission('createUser');
+        $createUser->description='Создание/редактирование пользователя';
+
         $viewAllStat = $authManager->createPermission('viewAllStats');
         $viewAllStat->description='Просмотр любых статистик';
 
         $viewAllProfiles = $authManager->createPermission('viewAllProfiles');
         $viewAllProfiles->description='Просмотр любых профилей';
 
-//        $viewOwnerStatsRule = new ViewOwnerStatsRule();
-//        $authManager->add($viewOwnerStatsRule);
         $viewOwnerStat = $authManager->createPermission('viewOwnerStat');
         $viewOwnerStat->description='Просмотр только своих статистик';
-//        $viewOwnerStat->ruleName=$viewOwnerStatsRule->name;
 
-//        $viewOwnerProfileRule = new ViewOwnerProfileRule();
-//        $authManager->add($viewOwnerProfileRule);
         $viewOwnerProfile=$authManager->createPermission('viewOwnerProfile');
         $viewOwnerProfile->description='Просмотр только своего профиля';
-//        $viewOwnerProfile->ruleName=$viewOwnerProfileRule->name;
 
         $authManager->add($createStat);
+        $authManager->add($createUser);
         $authManager->add($viewAllStat);
         $authManager->add($viewAllProfiles);
         $authManager->add($viewOwnerStat);
@@ -55,6 +53,7 @@ class RbacComponent extends Component
         $authManager->addChild($user,$viewOwnerProfile);
 
         $authManager->addChild($admin,$user);
+        $authManager->addChild($admin,$createUser);
         $authManager->addChild($admin,$viewAllStat);
         $authManager->addChild($admin,$viewAllProfiles);
 
@@ -64,6 +63,10 @@ class RbacComponent extends Component
 
     public function canCreateStat(){
         return \Yii::$app->user->can('createStat');
+    }
+
+    public function canCreateUser(){
+        return \Yii::$app->user->can('createUser');
     }
 
     public function canViewStat($stat = null){
@@ -76,13 +79,18 @@ class RbacComponent extends Component
         return false;
     }
 
-    public function canViewProfile($profile){
-        if(\Yii::$app->user->can('viewAllProfiles')){
-            return true;
-        }
+    public function canViewOwnerProfile($profile){
         if(\Yii::$app->user->can('viewOwnerProfile',['profile'=>$profile])){
             return true;
         }
+        return false;
+    }
+
+    public function viewAllProfiles(){
+        if(\Yii::$app->user->can('viewAllProfiles')){
+            return true;
+        }
+
         return false;
     }
 }

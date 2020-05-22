@@ -21,6 +21,20 @@ $config = [
         '@npm'   => '@vendor/npm-asset',
     ],
     'components' => [
+        'i18n' => [
+            'translations' => [
+                'app*' => [
+                    'class' => 'yii\i18n\PhpMessageSource',
+                    'forceTranslation' => true,
+                    'basePath' => '@app/messages',
+                    'sourceLanguage' => 'ru-RU',
+                    'fileMap' => [
+                        'app'       => 'app.php',
+                        'app/error' => 'error.php',
+                    ],
+                ],
+            ],
+        ],
         'authManager' => ['class'=>'\yii\rbac\DbManager'],
         //'wbStat' => ['class'=>\app\components\wbStatComponent::class,'nameClass'=>'\app\models\wbStat'],
         'auth' => ['class'=>\app\components\AuthComponent::class,'nameClass'=>'\app\models\Users'],
@@ -102,7 +116,7 @@ if (YII_ENV_DEV) {
         'class' => 'yii\debug\Module',
         // uncomment the following to add your IP if you are not connecting from localhost.
 //        'allowedIPs' => ['127.0.0.1', '::1'],
-        'allowedIPs' => ['*'],
+        //'allowedIPs' => ['*'],
     ];
 
     $config['bootstrap'][] = 'gii';
@@ -110,7 +124,7 @@ if (YII_ENV_DEV) {
         'class' => 'yii\gii\Module',
         // uncomment the following to add your IP if you are not connecting from localhost.
         //'allowedIPs' => ['127.0.0.1', '::1'],
-        'allowedIPs' => ['*'],
+        //'allowedIPs' => ['*'],
     ];
 }
 

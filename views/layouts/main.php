@@ -71,6 +71,9 @@ AppAsset::register($this);
                         'data-toggle' => 'tooltip',
                     ])
                 . '</li>';
+            $menuItems[] = '<li class="nav-item">'
+                .Html::a('<i class="fas fa-users"></i>', ['/user/index'], ['class' => 'nav-link waves-effect waves-light'])
+                . '</li>';
         }
 
 
