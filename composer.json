@@ -21,7 +21,8 @@
         "yiisoft/yii2-httpclient": "^2.0",
       "ext-simplexml": "*",
       "ext-zip": "*",
-      "ext-json": "*"
+      "ext-json": "*",
+        "yiisoft/yii2-bootstrap4": "^2.0"
     },
     "require-dev": {
         "yiisoft/yii2-debug": "~2.1.0",
