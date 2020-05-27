@@ -155,7 +155,7 @@ class Analytics extends Model
         $rawData['monthSales'] = $this->parseSales($monthRawSales['sheet1.xml']);
         $rawData['yearSales'] = $this->parseSales($yearRawSales['sheet1.xml']);
         $rawData['deficit'] = $this->parseDeficit($deficitRaw['sheet1.xml']);
-        $rawData['cost'] = $this->parseDeficit($costRaw['sheet1.xml'] ?? []);
+        $rawData['cost'] = $this->parseCost($costRaw['sheet1.xml'] ?? []);
 
         /**
          * @var $goods WBGood[]
@@ -180,12 +180,8 @@ class Analytics extends Model
             $goods[$goodKey]->addDeficit($assocGood);
         }
 
-        foreach ($rawData['cost'] as $assocGood) {
-            $goodKey = trim($assocGood['артикул']);
-            if (!array_key_exists($goodKey, $goods)) {
-                $goods[$goodKey] = new WBGood($assocGood);
-            }
-            $goods[$goodKey]->setSelfCost($assocGood);
+        foreach ($goods as &$good) {
+            $good->setSelfCost($rawData['cost'][$good->ownerID] ?? null);
         }
 
         return $goods;
@@ -207,6 +203,7 @@ class Analytics extends Model
         if (empty($rawData)) {
             return [];
         }
+
         $result = [];
         $heads = array_shift($rawData);
         foreach ($rawData as $value) {
@@ -214,6 +211,26 @@ class Analytics extends Model
                 continue;
             }
             $result[] = array_combine($heads, $value);
+        }
+
+        return $result;
+    }
+
+    private function parseCost($rawData) {
+        if (empty($rawData)) {
+            return [];
+        }
+
+        while (!is_numeric(str_replace(',', '.', $rawData[0]['B']))) {
+            array_shift($rawData);
+        }
+        $result = [];
+        foreach ($rawData as $value) {
+            $selfCost = array_slice($value, 0, 2);
+            if (empty($selfCost['A'])) {
+                continue;
+            }
+            $result[strtoupper(trim($selfCost['A']))] = floatval(str_replace(',', '.', $selfCost['B']));
         }
 
         return $result;

@@ -206,14 +206,8 @@ class WBGood extends Model
         }
     }
 
-    public function setSelfCost(array $data) {
-        if (trim($data['артикул']) != $this->ownerID) {
-            return false;
-        }
-
-        $this->selfCost = floatval(trim($data['себестоимость'] ?? 0));
-
-        return true;
+    public function setSelfCost($cost = null) {
+        $this->selfCost = $cost ?? 0;
     }
 
     public function setStatus(array $costs) {
