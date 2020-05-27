@@ -98,7 +98,7 @@ $updateFiles = Html::a('Загрузить файлы', '/analytics/files', ['cl
                                         <?=$good->brand?> <?=$good->ownerID?><br>
                                         <?=$good->name?><br>
                                         <?=$good->status?><br>
-                                        Себестоимость на складе: <?=$good->yearTotalCost?> руб.
+                                        Себестоимость на складе: <?=$good->selfCost * $good->yearBalanceTotals?> руб.
                                     </p>
                                     <table>
                                         <thead>
