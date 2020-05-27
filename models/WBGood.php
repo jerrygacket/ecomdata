@@ -92,7 +92,9 @@ class WBGood extends Model
         $moneys = array_slice($assocGood, 11, 7);
 
         foreach ($moneys as $key => $money) {
-            $this->sizes[$period][$size]['storage'][$storageId][$key] = $assocGood[$key];
+            $this->sizes[$period][$size]['storage'][$storageId][$key]
+                = ($this->sizes[$period][$size]['storage'][$storageId][$key] ?? 0)
+                + $assocGood[$key];
         }
 
         return true;
@@ -106,7 +108,9 @@ class WBGood extends Model
         $storageId = trim($assocGood['storage']);
         $moneys = array_slice($assocGood, 7, 7);
         foreach ($moneys as $key => $money) {
-            $this->sizes['month'][$size]['storage'][$storageId][$key] = $assocGood[$key];
+            $this->sizes['month'][$size]['storage'][$storageId][$key]
+                = ($this->sizes['month'][$size]['storage'][$storageId][$key] ?? 0)
+                + $assocGood[$key];
         }
 
         return true;
