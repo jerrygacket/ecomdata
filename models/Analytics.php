@@ -192,8 +192,23 @@ class Analytics extends Model
         $this->revHeads = array_flip($this->heads);
         array_shift($rawData);
         array_shift($rawData);
+        $headsLength = count($this->revHeads);
         foreach ($rawData as $value) {
-            $result[] = array_combine($this->revHeads, $value);
+            $dataLength = count($value);
+            if ($headsLength > $dataLength) {
+                $result[] = array_combine(
+                    $this->revHeads, array_pad(
+                        $value,($headsLength - $dataLength), 0
+                    )
+                );
+            } elseif ($headsLength < $dataLength) {
+                $revHeads = array_flip(array_pad(
+                    $this->heads,($dataLength - $headsLength), rand(0,100)
+                ));
+                $result[] = array_combine($revHeads, $value);
+            } else {
+                $result[] = array_combine($this->revHeads, $value);
+            }
         }
 
         return $result;
