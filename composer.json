@@ -22,7 +22,9 @@
       "ext-simplexml": "*",
       "ext-zip": "*",
       "ext-json": "*",
-        "yiisoft/yii2-bootstrap4": "^2.0"
+        "yiisoft/yii2-bootstrap4": "^2.0",
+      "ext-libxml": "*",
+      "ext-xml": "*"
     },
     "require-dev": {
         "yiisoft/yii2-debug": "~2.1.0",

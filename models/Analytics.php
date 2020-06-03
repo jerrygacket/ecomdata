@@ -100,12 +100,17 @@ class Analytics extends Model
                     $out[$file][$row] = array();
                     // по каждой ячейке
                     $cell = 0;
+                    // некоторые пустые ячейки в $xml отсутствуют
+                    // поэтому делаем через объект
+                    $xmlFiller = new XmlFiller();
                     foreach ($item as $child) {
                         $attr = $child->attributes();
                         $value = isset($child->v) ? (string)$child->v : false;
                         $keyN = preg_replace('/\d/', '', $attr['r']);
-                        $out[$file][$row][$keyN] = isset($attr['t']) ? ($sharedStringsArr[$value] ?? (string)$child->is->t) : $value;
+//                        $out[$file][$row][$keyN] = isset($attr['t']) ? ($sharedStringsArr[$value] ?? (string)$child->is->t) : $value;
+                        $xmlFiller->$keyN = isset($attr['t']) ? ($sharedStringsArr[$value] ?? (string)$child->is->t) : $value;
                     }
+                    $out[$file][$row] = $xmlFiller->toArray();
                     $row++;
                 }
             }
@@ -194,21 +199,7 @@ class Analytics extends Model
         array_shift($rawData);
         $headsLength = count($this->revHeads);
         foreach ($rawData as $value) {
-            $dataLength = count($value);
-            if ($headsLength > $dataLength) {
-                $result[] = array_combine(
-                    $this->revHeads, array_pad(
-                        $value,($headsLength - $dataLength), 0
-                    )
-                );
-            } elseif ($headsLength < $dataLength) {
-                $revHeads = array_flip(array_pad(
-                    $this->heads,($dataLength - $headsLength), rand(0,100)
-                ));
-                $result[] = array_combine($revHeads, $value);
-            } else {
-                $result[] = array_combine($this->revHeads, $value);
-            }
+            $result[] = array_combine($this->revHeads, array_slice($value, 0, $headsLength));
         }
 
         return $result;
