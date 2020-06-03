@@ -105,7 +105,7 @@ class Analytics extends Model
                     $xmlFiller = new XmlFiller();
                     foreach ($item as $child) {
                         $attr = $child->attributes();
-                        $value = isset($child->v) ? (string)$child->v : false;
+                        $value = isset($child->v) ? (string)$child->v : '';
                         $keyN = preg_replace('/\d/', '', $attr['r']);
 //                        $out[$file][$row][$keyN] = isset($attr['t']) ? ($sharedStringsArr[$value] ?? (string)$child->is->t) : $value;
                         $xmlFiller->$keyN = isset($attr['t']) ? ($sharedStringsArr[$value] ?? (string)$child->is->t) : $value;

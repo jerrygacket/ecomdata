@@ -46,6 +46,10 @@ class AnalyticsController extends BaseController
         ];
         $totalBrandOrders = [];
         foreach ($brands as $brand) {
+            if (!$brand) {
+                unset($brand);
+                continue;
+            }
             $brandCost['year'][$brand] = 0;
             $brandCost['month'][$brand] = 0;
             $brandIncomes['year'][$brand] = 0;
@@ -59,10 +63,12 @@ class AnalyticsController extends BaseController
 
         $orders = [];
         foreach ($goods as $key => &$good) {
+            $brand = $good->brand;
+            if (!$brand)
+                continue;
             $good->calcSales('year');
             $good->calcSales('month');
             $good->calcDeficit();
-            $brand = $good->brand;
             if ($good->status == '<span class="badge badge-light">снят с производства</span>') {
                 $deprecatedYear += $good->yearTotalCost;
                 $deprecatedMonth += $good->monthTotalCost;

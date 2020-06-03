@@ -56,17 +56,23 @@ $updateFiles = Html::a('Загрузить файлы', '/analytics/files', ['cl
         ?>
 
         <ul class="nav nav-tabs" id="myTab" role="tablist">
-            <?php foreach ($brands as $key => $brand) {?>
+            <?php foreach ($brands as $key => $brand) {
+                if (!$brand)
+                    continue;
+            ?>
             <li class="nav-item">
-                <a class="nav-link <?=$key == 0 ? 'active' : ''?>" id="<?=$brand?>-tab" data-toggle="tab" href="#<?=$brand?>" role="tab" aria-controls="<?=$brand?>"
+                <a class="nav-link <?=$key == 0 ? 'active' : ''?>" id="brand<?=$key?>-tab" data-toggle="tab" href="#brand<?=$key?>" role="tab" aria-controls="brand<?=$key?>"
                         aria-selected="<?=$key == 0 ? 'true' : 'false'?>"><?=$brand?></a>
             </li>
             <?php } ?>
         </ul>
 
         <div class="tab-content" id="myTabContent">
-            <?php foreach ($brands as $key => $brand) {?>
-            <div class="tab-pane fade <?=$key == 0 ? 'show active' : ''?>" id="<?=$brand?>" role="tabpanel" aria-labelledby="<?=$brand?>-tab">
+            <?php foreach ($brands as $key => $brand) {
+                if (!$brand)
+                    continue;
+            ?>
+            <div class="tab-pane fade <?=$key == 0 ? 'show active' : ''?>" id="brand<?=$key?>" role="tabpanel" aria-labelledby="brand<?=$key?>-tab">
                 <!--Card-->
                 <div class="card">
 
