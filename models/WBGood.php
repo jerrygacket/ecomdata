@@ -178,7 +178,8 @@ class WBGood extends Model
             $this->$sales += $size['salesTotals'];
             $this->$balance += $size['balanceTotals'];
         }
-        $this->$totalCost = ($this->$orders - $this->$sales + $this->$balance) * $this->selfCost;
+//        $this->$totalCost = ($this->$orders - $this->$sales + $this->$balance) * $this->selfCost;
+        $this->$totalCost = $this->$balance * $this->selfCost;
         $this->$percent = round($this->$orders > 0 ? $this->$sales / $this->$orders * 100 : 0);
     }
 

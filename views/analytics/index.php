@@ -36,7 +36,7 @@ $updateFiles = Html::a('Загрузить файлы', '/analytics/files', ['cl
                 <p class="card-text">
                     Выручка: год - <?=$common['yearTotalIncomes']?>, месяц - <?=$common['monthTotalIncomes']?><br>
                     Прибыль: год - <?=$common['yearTotalProfit']?>, месяц - <?=$common['monthTotalProfit']?><br>
-                    Себестоимость: год - <?=$common['yearTotalCost']?>, месяц - <?=$common['monthTotalCost']?>
+                    Себестоимость на складе: <?=$common['yearTotalCost']?>
                 </p>
                 <?=$updateFiles?>
                 <?=$updateApi?>
@@ -81,7 +81,7 @@ $updateFiles = Html::a('Загрузить файлы', '/analytics/files', ['cl
                         <p>
                             Выручка: год - <?=$common['brandIncomes']['year'][$brand]?>, месяц - <?=$common['brandIncomes']['month'][$brand]?><br>
                             Прибыль: год - <?=$common['brandProfit']['year'][$brand]?>, месяц - <?=$common['brandProfit']['month'][$brand]?><br>
-                            Себестоимость: год - <?=$common['brandCost']['year'][$brand]?>, месяц - <?=$common['brandCost']['month'][$brand]?>
+                            Себестоимость на складе: <?=$common['brandCost']['year'][$brand]?>
                         </p>
                         <table class="table table-bordered">
                             <thead>
