@@ -4,6 +4,7 @@
 namespace app\controllers;
 
 use app\components\AuthComponent;
+use app\models\UserFiles;
 use Yii;
 use yii\web\Controller;
 
@@ -33,6 +34,9 @@ class AuthController extends Controller
                 return $this->render('login', ['model' => $model]);
             }
             if($this->component->authUser($model)){
+                if ($model->username == 'demo') {
+                    UserFiles::clearUserFiles($model->id);
+                }
                 return $this->redirect(['/']);
             }
         }

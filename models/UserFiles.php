@@ -45,4 +45,9 @@ class UserFiles extends Model
 
         return false;
     }
+
+    public static function clearUserFiles($userId) {
+        $path = \Yii::getAlias('@webroot/').self::USERS_FILES.'/'.$userId;
+        FileHelper::removeDirectory($path);
+    }
 }
